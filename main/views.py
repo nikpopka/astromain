@@ -7,5 +7,5 @@ def index(request):
 
 
     return render(request, 'main/index.html', {
-        'title': 'Ведическая астрология'
+        'title': 'Ведическая астрология1111'
     })
