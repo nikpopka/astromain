@@ -1,7 +1,11 @@
 from django.shortcuts import render, HttpResponse
+from django.contrib.auth.models import User
+
 
 def index(request):
-    #return HttpResponse('111')
+    print(request.user.username)
+
+
     return render(request, 'main/index.html', {
         'title': 'Ведическая астрология'
     })
