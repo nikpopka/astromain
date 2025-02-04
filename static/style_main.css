@@ -42,7 +42,7 @@ body {
   font-size: 18px;
 }
 
-#contant_table th, #contant_table th {
+#contant_table th, #contant_table td {
   text-align: left;
   padding: 10px;
 }
