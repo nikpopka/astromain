@@ -11,3 +11,5 @@ def index(request):
     })
 
 
+def administrator(request):
+    return 11
