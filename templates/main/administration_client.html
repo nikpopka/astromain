@@ -1,0 +1,24 @@
+{% extends 'main\administration_base.html' %}
+{% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'style_main.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+
+<div id="navbar">
+    <a href="{% url 'administration_service' %}">Услуги</a>
+    <a class="active" href="{% url 'administration_client' %}">Клиенты</a>
+    <a href="{% url 'administration_order' %}">Заказы</a>
+</div>
+
+
+<div class="content">
+
+    </div>
+{% endblock %}

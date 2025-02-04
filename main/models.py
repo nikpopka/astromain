@@ -11,3 +11,8 @@ class Clients(models.Model):
     login = models.CharField("Имя пользователя", max_length=100)
     fio = models.CharField("ФИО", max_length=200)
     video = models.CharField("Ссылка на видео", max_length=100)
+
+
+class Orders(models.Model):
+    client = models.ForeignKey(Clients, on_delete=models.CASCADE)
+    service = models.ForeignKey(Services, on_delete=models.CASCADE)
