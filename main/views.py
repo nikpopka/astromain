@@ -7,6 +7,7 @@ from . models import Services, Clients, Orders
 def index(request):
     all_services = Services.objects.all()
 
+
     return render(request, 'main/index.html', {
         'title': 'Ведическая астрология',
         'all_services': all_services,
@@ -15,6 +16,21 @@ def index(request):
 @permission_required('main.view_services')
 def administration_service(request):
     all_services = Services.objects.all()
+
+    if request.method == "POST":
+        new_name = request.POST.get('service_name')
+        new_description = request.POST.get('service_description')
+        new_price = request.POST.get('service_price')
+
+        new_service = Services(
+            name=new_name,
+            description=new_description,
+            price=new_price
+        )
+        new_service.save()
+        return redirect("administration_service")
+
+
     return render(request, 'main/administration_service.html', {
         'title': 'Услуги',
         'all_services': all_services,
@@ -41,7 +57,8 @@ def edit_service(request, id):
     })
 
 
-
+def edd_service(request):
+    pass
 
 
 

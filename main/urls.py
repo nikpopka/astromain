@@ -7,4 +7,5 @@ urlpatterns = [
     path('administration_client', views.administration_client, name="administration_client"),
     path('administration_order', views.administration_order, name="administration_order"),
     path('edit_service/<int:id>', views.edit_service, name="edit_service"),
+    path('edd_service', views.edd_service, name="edd_service"),
 ]
