@@ -17,7 +17,7 @@
 
 
 
-    <div class="content">
+    <div style="margin-bottom: 100px;" class="content">
         <form method="post" action="">{% csrf_token %}
             <table id="contant_table">
                 <tr>
@@ -40,7 +40,7 @@
 
     </div>
 
-
+<a style="font-size: 18px;margin-top: 100px;" href="{% url 'delete_service' service.id %}">Удалить услугу</a>
 
 </div>
 

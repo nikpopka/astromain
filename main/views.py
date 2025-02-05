@@ -57,8 +57,10 @@ def edit_service(request, id):
     })
 
 
-def edd_service(request):
-    pass
+def delete_service(request, id):
+    service = Services.objects.get(id=id)
+    service.delete()
+    return redirect('administration_service')
 
 
 
