@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-    
+
     {% block css_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'style_main.css' %}">
     {% endblock %}
@@ -16,23 +16,31 @@
         <h2>заголовок если надо. лого?</h2>
         <p>Может быть приветствие.</p>
     </div>
-    
-    <div id="navbar">
-        <a class="active" href="#">Главная</a>
-        <a href="#">блог, как в телеге</a>
-        <a href="#">Контакты</a>
-        <a href="#" style="float: right;">Личный кабинет</a>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div style="margin: 20px;">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form_auth.as_p }}
+                    <button type="submit">Войти</button>
+                </form>
+                <button class="close">Отмена</button>
+            </div>
+        </div>
+
     </div>
+
 {% block content %}
-    
+
 {% endblock %}
 </body>
 <script>
     window.onscroll = function() {myFunction()};
-    
+
     var navbar = document.getElementById("navbar");
     var sticky = navbar.offsetTop;
-    
+
     function myFunction() {
         if (window.pageYOffset >= sticky) {
         navbar.classList.add("sticky")
@@ -40,5 +48,25 @@
         navbar.classList.remove("sticky");
         }
     }
+
+
+    const modal = document.querySelector('#modal');
+    const btn = document.querySelector('#openModal');
+    const close = document.querySelector('.close');
+
+    btn.onclick = function () {
+    modal.style.display = 'block';
+    };
+
+    close.onclick = function () {
+    modal.style.display = 'none';
+    };
+
+    window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+    };
+
     </script>
 </html>

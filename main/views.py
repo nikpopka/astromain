@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import permission_required
 from . models import Services, Clients, Orders
 
@@ -7,11 +9,23 @@ main_user = "popov"
 
 def index(request):
     all_services = Services.objects.all()
+    form_auth = AuthenticationForm()
+    if request.method == "POST":
+        form_auth = AuthenticationForm(request, data=request.POST)
+        if form_auth.is_valid():
+            username = form_auth.cleaned_data.get("username")
+            password = form_auth.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+            else:
+                return redirect('main')
 
 
     return render(request, 'main/index.html', {
         'title': 'Ведическая астрология',
         'all_services': all_services,
+        'form_auth': form_auth,
     })
 
 @permission_required('main.view_services')

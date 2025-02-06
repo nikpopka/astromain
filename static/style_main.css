@@ -67,3 +67,29 @@ body {
 .sticky + .content {
     padding-top: 60px;
   }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .modal-content {
+    background-color: #04AA6D;
+    top: 20%;
+    width: 400px;
+    position: absolute;
+    left: 40%;
+    border-radius: 10px;
+}
+
+
+  .close {
+    /* some rules */
+  }
