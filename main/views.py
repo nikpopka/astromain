@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import permission_required
-from . models import Services, Clients, Orders
+from . models import Services, Clients, Orders, Video, Files
 
 main_user = "popov"
 
@@ -18,6 +18,7 @@ def index(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+                return redirect('personal_account')
             else:
                 return redirect('main')
 
@@ -27,6 +28,24 @@ def index(request):
         'all_services': all_services,
         'form_auth': form_auth,
     })
+
+
+def personal_account(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        client = Clients.objects.get(login=username)
+        video_list = Video.objects.filter(client=client)
+        files = Files.objects.filter(client=client)
+        return render(request, 'main/lk.html', {
+            'title': 'Личный кабинет',
+            'client': client,
+            'video_list': video_list,
+            'files': files,
+        })
+    return render(request, 'main/lk.html', {
+        'title': 'Личный кабинет',
+    })
+
 
 @permission_required('main.view_services')
 def administration_service(request):
