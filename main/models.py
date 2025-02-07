@@ -12,6 +12,7 @@ class Clients(models.Model):
     fio = models.CharField("ФИО", max_length=200, default='')
 
 
+
 class Orders(models.Model):
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     service = models.ForeignKey(Services, on_delete=models.CASCADE)

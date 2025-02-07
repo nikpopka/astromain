@@ -47,6 +47,11 @@ def personal_account(request):
     })
 
 
+def anketa(request):
+    return render(request, 'main/anketa.html', {
+        'title': 'Анкета',
+    })
+
 @permission_required('main.view_services')
 def administration_service(request):
     if request.user.username == main_user:
@@ -94,8 +99,6 @@ def edit_service(request, id):
     else:
         return redirect('main')
 
-
-
 def delete_service(request, id):
     if request.user.username == main_user:
         service = Services.objects.get(id=id)
@@ -108,8 +111,27 @@ def delete_service(request, id):
 
 
 def administration_client(request):
+
+    clients = Clients.objects.all()
+
+    if request.method == "POST":
+        fio = request.POST.get('fio')
+        log = request.POST.get('login')
+        passw = request.POST.get('passw')
+
+        new_user = User.objects.create_user(
+            username=log,
+            password=passw
+        )
+
+        new_client = Clients(login=log,
+                             fio=fio)
+        new_client.save()
+
+
     return render(request, 'main/administration_client.html', {
-        'title': 'Клиенты'
+        'title': 'Клиенты',
+        'clients': clients,
     })
 
 def administration_order(request):

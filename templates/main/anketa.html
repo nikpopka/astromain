@@ -19,19 +19,12 @@
     {% endif %}
 </div>
 <div class="content">
-    <h3>Привет, {{client.fio}}</h3>
-    <div >
-        <a style="float: right;" href="{% url 'anketa' %}">Анкета</a>
-    </div>
     <div>
-        {% for video in video_list %}
-            <p>{{video.video_name}}</p>
-            <iframe width="720" height="405" src="{{video.src}}" frameBorder="0" allow="clipboard-write; autoplay" allowFullScreen></iframe>
-        {% endfor %}
-
-
+        <div>
+            <div>Вопрос</div>
+            <div>Дата</div>
+            <div>Пояснение</div>
+        </div>
     </div>
-    <div>
-    </div>
- </div>
+</div>
 {% endblock %}

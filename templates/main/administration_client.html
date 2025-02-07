@@ -18,7 +18,49 @@
 </div>
 
 
+
+
+
 <div class="content">
+    <div style="margin-bottom: 30px;">
+        <button id="add_form">Добавить</button>
+    </div>
+    <div id="view_form" style="margin-bottom: 30px; display: none;">
+        <form action="" method="post">{% csrf_token %}
+            <div>
+                <label for="">ФИО:</label>
+                <input name="fio" type="text">
+            </div>
+            <div>
+                <label for="">Логин:</label>
+                <input name="login" type="text">
+            </div>
+            <div>
+                <label for="">Пароль:</label>
+                <input name="passw" type="text">
+            </div>
+
+            <button type="submit">Сохранить</button>
+        </form>
+        <button id="close_form">Отмена</button>
+    </div>
+    <div>
+        <table id="contant_table">
+            <th>ФИО</th>
+            <th>Логин</th>
+            <th></th>
+        {% for client in clients %}
+                <tr>
+                    <td><a href="">{{client.fio}}</a></td>
+                    <td>{{client.login}}</td>
+                    <td></td>
+                </tr>
+
+        {% endfor %}
+        </table>
+    </div>
+
+
 
     </div>
 {% endblock %}
