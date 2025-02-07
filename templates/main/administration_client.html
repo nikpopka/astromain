@@ -51,7 +51,7 @@
             <th></th>
         {% for client in clients %}
                 <tr>
-                    <td><a href="">{{client.fio}}</a></td>
+                    <td><a href="{% url 'edit_client' client.id %}">{{client.fio}}</a></td>
                     <td>{{client.login}}</td>
                     <td></td>
                 </tr>

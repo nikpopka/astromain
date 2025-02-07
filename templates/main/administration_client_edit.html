@@ -1,0 +1,70 @@
+{% extends 'main\administration_base.html' %}
+{% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'style_main.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div id="navbar">
+    <a href="{% url 'administration_service' %}">Услуги</a>
+    <a class="active" href="{% url 'administration_client' %}">Клиенты</a>
+    <a href="{% url 'administration_order' %}">Заказы</a>
+</div>
+
+
+
+    <div style="margin-bottom: 100px;" class="content">
+        <form method="post" action="">{% csrf_token %}
+            <div>
+                <div style="margin-top: 30px;">
+                    Клиент {{client.fio}}
+                </div>
+                <div style="margin-top: 30px;">
+                    Логин {{client.login}}
+                </div>
+                <div>
+                    <a href="">Сбросить пароль</a>
+                </div>
+                <div style="margin-top: 30px;">
+                    Список видео
+                    <button>Добавить</button>
+                    <table id="contant_table">
+                        {% for video in video_list %}
+                            <tr>
+                                <td>{{video.video_name}}</td>
+                                <td>{{video.src}}</td>
+                                <td><a href="">Удалить</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div style="margin-top: 30px;">
+                    Список файлов
+                    <button>Добавить</button>
+                    <table id="contant_table">
+                        {% for file in files %}
+                            <tr>
+                                <td>{{file.file_name}}</td>
+                                <td>{{file.src}}</td>
+                                <td><a href="">Удалить</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <button style="margin-top: 30px;" type="submit">Сохранить</button>
+        </form>
+
+
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

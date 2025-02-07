@@ -134,6 +134,22 @@ def administration_client(request):
         'clients': clients,
     })
 
+def edit_client(request, id):
+    client = Clients.objects.get(id=id)
+    video_list = Video.objects.filter(client=client)
+    files = Files.objects.filter(client=client)
+    if request.method == "POST":
+        pass
+
+    return render(request, 'main/administration_client_edit.html', {
+        'title': client.fio,
+        'client': client,
+        'video_list': video_list,
+        'files': files,
+    })
+
+
+
 def administration_order(request):
     return render(request, 'main/administration_order.html', {
         'title': 'Заказы'
