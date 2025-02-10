@@ -139,7 +139,18 @@ def edit_client(request, id):
     video_list = Video.objects.filter(client=client)
     files = Files.objects.filter(client=client)
     if request.method == "POST":
-        pass
+        new_video_name = request.POST.get('new_video_name')
+        new_file_name = request.POST.get('new_file_name')
+
+        if new_video_name is not None:
+            new_video_src = request.POST.get('new_video_src')
+            new_video = Video(client=client, video_name=new_video_name, src=new_video_src)
+            new_video.save()
+
+        if new_file_name  is not None:
+            new_file_src = request.POST.get('new_file_src')
+            new_file = Files(client=client, file_name=new_file_name, src=new_file_src)
+            new_file.save()
 
     return render(request, 'main/administration_client_edit.html', {
         'title': client.fio,
@@ -148,6 +159,32 @@ def edit_client(request, id):
         'files': files,
     })
 
+def delete_video(request, id):
+    video = Video.objects.get(id=id)
+    client = Clients.objects.get(id=video.client.id)
+    video_list = Video.objects.filter(client=client)
+    files = Files.objects.filter(client=client)
+    video.delete()
+    return redirect(f'/edit_client/{client.id}', {
+        'title': client.fio,
+        'client': client,
+        'video_list': video_list,
+        'files': files,
+    })
+
+
+def delete_file(request, id):
+    File = Files.objects.get(id=id)
+    client = Clients.objects.get(id=File.client.id)
+    video_list = Video.objects.filter(client=client)
+    files = Files.objects.filter(client=client)
+    File.delete()
+    return redirect(f'/edit_client/{client.id}', {
+        'title': client.fio,
+        'client': client,
+        'video_list': video_list,
+        'files': files,
+    })
 
 
 def administration_order(request):

@@ -18,7 +18,6 @@
 
 
     <div style="margin-bottom: 100px;" class="content">
-        <form method="post" action="">{% csrf_token %}
             <div>
                 <div style="margin-top: 30px;">
                     Клиент {{client.fio}}
@@ -30,34 +29,69 @@
                     <a href="">Сбросить пароль</a>
                 </div>
                 <div style="margin-top: 30px;">
-                    Список видео
-                    <button>Добавить</button>
-                    <table id="contant_table">
-                        {% for video in video_list %}
-                            <tr>
-                                <td>{{video.video_name}}</td>
-                                <td>{{video.src}}</td>
-                                <td><a href="">Удалить</a></td>
-                            </tr>
-                        {% endfor %}
-                    </table>
+                    <p>Список видео</p>
+                    <button id="open_form_video">Добавить</button>
+                    <div style="display: none;"  id="form_videos">
+                        <form action="" method="post">{% csrf_token %}
+                            <div style="display: inline-flex;">
+                                <div><input name="new_video_name" type="text" placeholder="Название"></div>
+                                <div><input name="new_video_src" style="width: 500px;" type="text" value="https://rutube.ru/play/embed/" placeholder="Ссылка"></div>
+                            </div>
+                            <button type="submit">Сохранить</button>
+                        </form>
+                        <button id="close_form_video">Отмена</button>
+                    </div>
+
+                    <div>
+                        {% if video_list %}
+                            <table id="contant_table">
+                                {% for video in video_list %}
+                                    <tr>
+                                        <td>{{video.video_name}}</td>
+                                        <td>{{video.src}}</td>
+                                        <td><a href="{% url 'delete_video' video.id %}">Удалить</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <div>
+                                Список пуст
+                            </div>
+                        {% endif %}
+                    </div>
+
                 </div>
                 <div style="margin-top: 30px;">
-                    Список файлов
-                    <button>Добавить</button>
-                    <table id="contant_table">
-                        {% for file in files %}
-                            <tr>
-                                <td>{{file.file_name}}</td>
-                                <td>{{file.src}}</td>
-                                <td><a href="">Удалить</a></td>
-                            </tr>
-                        {% endfor %}
-                    </table>
+                    <p>Список файлов</p>
+                    <button id="open_form_files">Добавить</button>
+                    <div style="display: none;" id="form_files">
+                        <form action="" method="post">{% csrf_token %}
+                            <div style="display: inline-flex;">
+                                <div><input name="new_file_name" type="text" placeholder="Название"></div>
+                                <div><input name="new_file_src" style="width: 500px;" type="text" placeholder="Ссылка"></div>
+                            </div>
+                            <button type="submit">Сохранить</button>
+                        </form>
+                        <button id="close_form_files">Отмена</button>
+                    </div>
+                    <div>
+                        {% if files %}
+                        <table id="contant_table">
+                            {% for file in files %}
+                                <tr>
+                                    <td>{{file.file_name}}</td>
+                                    <td>{{file.src}}</td>
+                                    <td><a href="{% url 'delete_file' file.id %}">Удалить</a></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        {% else %}
+                            Список пуст
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             <button style="margin-top: 30px;" type="submit">Сохранить</button>
-        </form>
 
 
 
@@ -65,6 +99,36 @@
 
 </div>
 
+<script>
+const open_form_video = document.getElementById("open_form_video")
+const open_form_files = document.getElementById("open_form_files")
+const form_videos = document.getElementById("form_videos")
+const form_files = document.getElementById("form_files")
+const close_form_video = document.getElementById("close_form_video")
+const close_form_files = document.getElementById("close_form_files")
 
+
+open_form_video.addEventListener('click', function() {
+    form_videos.style.display = '';
+    open_form_video.style.display = 'none';
+    })
+
+close_form_video.addEventListener('click', function() {
+    form_videos.style.display = 'none';
+    open_form_video.style.display = '';
+    })
+
+open_form_files.addEventListener('click', function() {
+    form_files.style.display = '';
+    open_form_files.style.display = 'none';
+    })
+
+close_form_files.addEventListener('click', function() {
+    form_files.style.display = 'none';
+    open_form_files.style.display = '';
+    })
+
+</script>
 
 {% endblock %}
+

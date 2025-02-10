@@ -24,14 +24,28 @@
         <a style="float: right;" href="{% url 'anketa' %}">Анкета</a>
     </div>
     <div>
+        {% if not files and not video_list %}
+            <p>В данном разделе, после предоставления Вам услуги, появится информация</p>
+        {% endif %}
+    </div>
+    <div>
         {% for video in video_list %}
             <p>{{video.video_name}}</p>
             <iframe width="720" height="405" src="{{video.src}}" frameBorder="0" allow="clipboard-write; autoplay" allowFullScreen></iframe>
         {% endfor %}
 
-
     </div>
+
     <div>
+        {% if files %}
+            <p>Ссылки на файлы:</p>
+        {% endif %}
+        {% for file in files %}
+
+            <p>
+                <a href="{{file.src}}">{{file.file_name}}</a>
+            </p>
+        {% endfor %}
     </div>
  </div>
 {% endblock %}
