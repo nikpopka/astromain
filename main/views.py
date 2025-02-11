@@ -148,6 +148,12 @@ def delete_service(request, id):
     else:
         return redirect('main')
 
+def administration_anketa(request):
+    questions = Questions.objects.all()
+    return render(request, 'main/administration_anketa.html', {
+        'title': 'Анкета',
+        'questions': questions,
+    })
 
 
 

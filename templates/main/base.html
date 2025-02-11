@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-
+    <link rel="icon" href="{% static 'title.jpg' %}" type="image/x-icon">
     {% block css_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'style_main.css' %}">
+
+
     {% endblock %}
 
 </head>

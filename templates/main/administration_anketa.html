@@ -1,0 +1,70 @@
+{% extends 'main\administration_base.html' %}
+{% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'style_main.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div id="navbar">
+    <a href="{% url 'administration_service' %}">Услуги</a>
+    <a href="{% url 'administration_client' %}">Клиенты</a>
+    <a href="{% url 'administration_order' %}">Заказы</a>
+    <a class="active" href="{% url 'administration_anketa' %}">Анкета</a>
+</div>
+
+
+
+<div class="content">
+    <div style="margin-bottom: 30px;">
+        <button id="add_form">Добавить</button>
+    </div>
+    <div id="view_form" style="margin-bottom: 30px; display: none;">
+        <form action="" method="post">{% csrf_token %}
+            <textarea name="service_description" style="width: 400px; height: 50px;resize: none;"></textarea>
+
+            <button type="submit">Сохранить</button>
+        </form>
+        <button id="close_form">Отмена</button>
+    </div>
+    <div>
+        <table id="contant_table">
+        {% for question in questions %}
+                <tr>
+                    <td><textarea name="" style="width: 400px; height: 50px;resize: none;">{{question.question}}</textarea></td>
+                    <td><a href="">Удалить</a></td>
+                </tr>
+
+        {% endfor %}
+        </table>
+    </div>
+
+
+
+    </div>
+
+    <script>
+        const add_form = document.getElementById("add_form")
+        const view_form = document.getElementById("view_form")
+        const close_form = document.getElementById("close_form")
+
+
+        add_form.addEventListener('click', function() {
+            view_form.style.display = '';
+            add_form.style.display = 'none';
+            })
+
+            close_form.addEventListener('click', function() {
+            add_form.style.display = '';
+            view_form.style.display = 'none';
+            })
+
+
+
+        </script>
+
+{% endblock %}
+
