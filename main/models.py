@@ -27,3 +27,13 @@ class Files(models.Model):
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     file_name = models.CharField("Название", max_length=100, default='')
     src = models.CharField("Ссылка на файл", max_length=1000, default='')
+
+
+class Questions(models.Model):
+    question = models.CharField("Вопрос", max_length=2000, default='')
+
+
+class Answers(models.Model):
+    client = models.ForeignKey(Clients, on_delete=models.CASCADE)
+    question = models.ForeignKey(Questions, on_delete=models.CASCADE)
+    answer = models.CharField("Ответ", max_length=5000, default='')

@@ -3,9 +3,20 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import permission_required
-from . models import Services, Clients, Orders, Video, Files
+from . models import Services, Clients, Questions, Video, Files, Answers
+from django.template.defaultfilters import register
 
 main_user = "popov"
+
+@register.filter(name='get_attr')
+def get_attr(dictionary, key):
+    try:
+        res = dictionary[key]
+    except:
+        res = ''
+    return res
+
+
 
 def index(request):
     all_services = Services.objects.all()
@@ -48,8 +59,38 @@ def personal_account(request):
 
 
 def anketa(request):
+    questions = Questions.objects.all()
+    client = Clients.objects.get(login=request.user.username)
+    answers = Answers.objects.filter(client=client)
+    dict_answers = {}
+
+
+    if request.method == "POST":
+        for question in questions:
+            answer = request.POST.get(f"{question.id}")
+            if Answers.objects.filter(client=client, question=question).exists():
+                new_answer = Answers.objects.get(client=client, question=question)
+                new_answer.answer = answer
+                new_answer.save()
+
+            else:
+                new_answer = Answers(
+                    client=client,
+                    question=question,
+                    answer=answer
+                )
+                new_answer.save()
+
+    for i in answers:
+        dict_answers[i.question.id] = i.answer
+
+    print(dict_answers)
+
     return render(request, 'main/anketa.html', {
         'title': 'Анкета',
+        'questions': questions,
+        'answers': answers,
+        'dict_answers': dict_answers,
     })
 
 @permission_required('main.view_services')
@@ -185,6 +226,7 @@ def delete_file(request, id):
         'video_list': video_list,
         'files': files,
     })
+
 
 
 def administration_order(request):

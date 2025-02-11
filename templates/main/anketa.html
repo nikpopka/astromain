@@ -21,9 +21,22 @@
 <div class="content">
     <div>
         <div>
-            <div>Вопрос</div>
-            <div>Дата</div>
-            <div>Пояснение</div>
+            <form method="post">{% csrf_token %}
+                <table id="contant_table">
+                    <tr>
+                        <th>Вопрос</th>
+                        <th>Ответ</th>
+                    </tr>
+                    {% for question in questions %}
+                        <tr>
+                            <td style="max-width: 400px;"><p>{{question.question}}</p></td>
+                            <td><textarea required style="width: 700px;height: 99px;" name="{{question.id}}" id="">{{dict_answers|get_attr:question.id}}</textarea></td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+                <button type="submit">Сохранить</button>
+            </form>
         </div>
     </div>
 </div>
