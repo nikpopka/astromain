@@ -37,3 +37,9 @@ class Answers(models.Model):
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     question = models.ForeignKey(Questions, on_delete=models.CASCADE)
     answer = models.CharField("Ответ", max_length=5000, default='')
+
+
+class Comments(models.Model):
+    client = models.ForeignKey(Clients, on_delete=models.CASCADE)
+    comment = models.CharField("Комментарий", max_length=5000, default='')
+    data = models.DateTimeField("Дата", auto_now_add=True)

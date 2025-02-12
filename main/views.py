@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import permission_required
-from . models import Services, Clients, Questions, Video, Files, Answers
+from .models import Services, Clients, Questions, Video, Files, Answers, Comments
 from django.template.defaultfilters import register
 
 main_user = "popov"
@@ -117,6 +117,7 @@ def administration_service(request):
     else:
         return redirect('main')
 
+
 def edit_service(request, id):
     if request.user.username == main_user:
         service = Services.objects.get(id=id)
@@ -137,6 +138,7 @@ def edit_service(request, id):
         })
     else:
         return redirect('main')
+
 
 def delete_service(request, id):
     if request.user.username == main_user:
@@ -159,6 +161,7 @@ def administration_anketa(request):
         'questions': questions,
     })
 
+
 def edit_question(request, id):
     question = Questions.objects.get(id=id)
     if request.method == 'POST':
@@ -176,6 +179,7 @@ def delete_question(request, id):
     question = Questions.objects.get(id=id)
     question.delete()
     return redirect('administration_anketa')
+
 
 def administration_client(request):
 
@@ -200,6 +204,7 @@ def administration_client(request):
         'title': 'Клиенты',
         'clients': clients,
     })
+
 
 def edit_client(request, id):
     client = Clients.objects.get(id=id)
@@ -227,6 +232,7 @@ def edit_client(request, id):
         'files': files,
         'anketa_list': anketa_list,
     })
+
 
 def delete_video(request, id):
     video = Video.objects.get(id=id)
@@ -256,8 +262,19 @@ def delete_file(request, id):
     })
 
 
-
 def administration_order(request):
     return render(request, 'main/administration_order.html', {
         'title': 'Заказы'
+    })
+
+
+def comments(request):
+    comments = Comments.objects.all().order_by('-id')
+    # if request.method == "POST":
+    #     new_comment = request.POST.get('new_comment')
+    #     new_comment_obj = Comments(comment=new_comment)
+    #     new_comment_obj.save()
+    return render(request, 'main/comments.html', {
+        'title': 'Комментарии',
+        'comments': comments,
     })
