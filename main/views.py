@@ -84,8 +84,6 @@ def anketa(request):
     for i in answers:
         dict_answers[i.question.id] = i.answer
 
-    print(dict_answers)
-
     return render(request, 'main/anketa.html', {
         'title': 'Анкета',
         'questions': questions,
@@ -150,12 +148,34 @@ def delete_service(request, id):
 
 def administration_anketa(request):
     questions = Questions.objects.all()
+
+    if request.method == 'POST':
+        new_question = request.POST.get('new_question')
+        new_question_obj = Questions(question=new_question)
+        new_question_obj.save()
+
     return render(request, 'main/administration_anketa.html', {
         'title': 'Анкета',
         'questions': questions,
     })
 
+def edit_question(request, id):
+    question = Questions.objects.get(id=id)
+    if request.method == 'POST':
+        new_question = request.POST.get('new_text_question')
+        question.question = new_question
+        question.save()
+        return redirect('administration_anketa')
+    return render(request, 'main/administration_question.html', {
+        'title': 'Редактирование вопроса',
+        'question': question,
+    })
 
+
+def delete_question(request, id):
+    question = Questions.objects.get(id=id)
+    question.delete()
+    return redirect('administration_anketa')
 
 def administration_client(request):
 

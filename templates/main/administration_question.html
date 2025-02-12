@@ -1,0 +1,37 @@
+{% extends 'main\administration_base.html' %}
+{% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'style_main.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div id="navbar">
+    <a href="{% url 'administration_service' %}">Услуги</a>
+    <a href="{% url 'administration_client' %}">Клиенты</a>
+    <a href="{% url 'administration_order' %}">Заказы</a>
+    <a class="active" href="{% url 'administration_anketa' %}">Анкета</a>
+</div>
+
+
+
+    <div style="margin-bottom: 100px;" class="content">
+        <form method="post" action="">{% csrf_token %}
+            <textarea style="width: 700px; height: 400px;" name="new_text_question" id="">{{question.question}}</textarea>
+            <button type="submit">Сохранить</button>
+        </form>
+
+
+
+    </div>
+
+<a style="font-size: 18px;margin-top: 100px;" href="{% url 'delete_question' question.id %}">Удалить вопрос</a>
+
+</div>
+
+
+
+{% endblock %}

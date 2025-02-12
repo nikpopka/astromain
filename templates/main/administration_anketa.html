@@ -24,7 +24,7 @@
     </div>
     <div id="view_form" style="margin-bottom: 30px; display: none;">
         <form action="" method="post">{% csrf_token %}
-            <textarea name="service_description" style="width: 400px; height: 50px;resize: none;"></textarea>
+            <textarea name="new_question" style="width: 600px; height: 200px;resize: none;"></textarea>
 
             <button type="submit">Сохранить</button>
         </form>
@@ -34,8 +34,8 @@
         <table id="contant_table">
         {% for question in questions %}
                 <tr>
-                    <td><textarea name="" style="width: 400px; height: 50px;resize: none;">{{question.question}}</textarea></td>
-                    <td><a href="">Удалить</a></td>
+                    <td style="max-width: 700px;"><p>{{question.question}}</p></td>
+                    <td><a href="{% url 'edit_question' question.id %}">Редактировать</a></td>
                 </tr>
 
         {% endfor %}

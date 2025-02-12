@@ -30,7 +30,7 @@
                     {% for question in questions %}
                         <tr>
                             <td style="max-width: 400px;"><p>{{question.question}}</p></td>
-                            <td><textarea required style="width: 700px;height: 99px;" name="{{question.id}}" id="">{{dict_answers|get_attr:question.id}}</textarea></td>
+                            <td><textarea required style="width: 700px;height: 99px;resize: none;" name="{{question.id}}" id="">{{dict_answers|get_attr:question.id}}</textarea></td>
                         </tr>
                     {% endfor %}
 
