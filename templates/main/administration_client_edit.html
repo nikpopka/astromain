@@ -92,7 +92,30 @@
                     </div>
                 </div>
             </div>
-            <button style="margin-top: 30px;" type="submit">Сохранить</button>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div>
+                <div>
+                    <p>Анкетные данные клиента</p>
+                </div>
+                <div>
+                    <table id="contant_table">
+                        <tr>
+                            <th>Вопрос</th>
+                            <th>Ответ</th>
+                        </tr>
+                        {% for answer in anketa_list %}
+                            <tr>
+                                <td style="max-width: 700px;">{{answer.question.question}}</td>
+                                <td>{{answer.answer}}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+            </div>
 
 
 

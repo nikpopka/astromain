@@ -205,6 +205,7 @@ def edit_client(request, id):
     client = Clients.objects.get(id=id)
     video_list = Video.objects.filter(client=client)
     files = Files.objects.filter(client=client)
+    anketa_list = Answers.objects.filter(client=client)
     if request.method == "POST":
         new_video_name = request.POST.get('new_video_name')
         new_file_name = request.POST.get('new_file_name')
@@ -224,6 +225,7 @@ def edit_client(request, id):
         'client': client,
         'video_list': video_list,
         'files': files,
+        'anketa_list': anketa_list,
     })
 
 def delete_video(request, id):
