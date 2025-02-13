@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 from .models import Services, Clients, Questions, Video, Files, Answers, Comments
 from django.template.defaultfilters import register
 
@@ -15,7 +15,6 @@ def get_attr(dictionary, key):
     except:
         res = ''
     return res
-
 
 
 def index(request):
@@ -148,6 +147,7 @@ def delete_service(request, id):
     else:
         return redirect('main')
 
+
 def administration_anketa(request):
     questions = Questions.objects.all()
 
@@ -270,11 +270,31 @@ def administration_order(request):
 
 def comments(request):
     comments = Comments.objects.all().order_by('-id')
-    # if request.method == "POST":
-    #     new_comment = request.POST.get('new_comment')
-    #     new_comment_obj = Comments(comment=new_comment)
-    #     new_comment_obj.save()
+    if request.user.is_authenticated:
+        client = Clients.objects.get(login=request.user.username)
+    form_auth = AuthenticationForm()
+    if request.method == "POST":
+        form_auth = AuthenticationForm(request, data=request.POST)
+        if form_auth.is_valid():
+            username = form_auth.cleaned_data.get("username")
+            password = form_auth.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('personal_account')
+            else:
+                return redirect('comments')
+        if request.user.is_authenticated:
+            new_comment = request.POST.get('new_comment')
+            if new_comment != "Ваш текст...":
+                new_comment_obj = Comments(comment=new_comment, client=client)
+                new_comment_obj.save()
+                return redirect('comments')
+            else: return redirect('comments')
+
     return render(request, 'main/comments.html', {
         'title': 'Комментарии',
         'comments': comments,
+        'form_auth': form_auth,
     })
+

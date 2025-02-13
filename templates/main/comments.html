@@ -15,9 +15,25 @@
     {% if request.user.is_authenticated %}
     <a href="{% url 'personal_account' %}" style="float: right;">Личный кабинет</a>
     {% else %}
-    <a id="openModal"  style="float: right;">Личный кабинет</a>
+    <a id="openModal"  style="float: right;">Вход</a>
     {% endif %}
 </div>
+{% if request.user.is_authenticated %}
+<div style="margin-top: 30px;margin-left: 50px;">
+    <form method="post">{% csrf_token %}
+        <label for="new_comment">Оставьте Ваш отзыв:</label>
+        <textarea id="new_comment" name="new_comment" rows="5" cols="33">Ваш текст...</textarea>
+        <button style="display: block;" type="submit">Отправить</button>
+    </form>
+
+</div>
+{% else %}
+<div style="display: flex;justify-content: end;">
+    <p style="font-size: 15px;">
+        Дорогие друзья, возможность оставить отзыв появится после получения услуг.
+    </p>
+</div>
+{% endif %}
 <div class="content">
     <div class="reviews">
         {% for comment in comments %}

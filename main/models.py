@@ -43,3 +43,11 @@ class Comments(models.Model):
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     comment = models.CharField("Комментарий", max_length=5000, default='')
     data = models.DateTimeField("Дата", auto_now_add=True)
+
+class Links(models.Model):
+    name = models.CharField("Название", max_length=100, default='')
+    link = models.CharField("Ссылка", max_length=1000, default='')
+
+class Promotions(models.Model):
+    name = models.CharField("Название", max_length=100, default='')
+    description = models.CharField("Описание", max_length=1000, default='')
