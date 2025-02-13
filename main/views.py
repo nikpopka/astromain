@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import permission_required, login_required
-from .models import Services, Clients, Questions, Video, Files, Answers, Comments
+from .models import Services, Clients, Questions, Video, Files, Answers, Comments, Links
 from django.template.defaultfilters import register
 
 main_user = "popov"
@@ -19,6 +19,10 @@ def get_attr(dictionary, key):
 
 def index(request):
     all_services = Services.objects.all()
+    vk_link = Links.objects.get(name="vkcom").link
+    youtube_link = Links.objects.get(name="youtube").link
+    rutube_link = Links.objects.get(name="rutube").link
+    telegram_link = Links.objects.get(name="telegram").link
     form_auth = AuthenticationForm()
     if request.method == "POST":
         form_auth = AuthenticationForm(request, data=request.POST)
@@ -37,6 +41,11 @@ def index(request):
         'title': 'Ведическая астрология',
         'all_services': all_services,
         'form_auth': form_auth,
+        'vk_link': vk_link,
+        'youtube_link': youtube_link,
+        'rutube_link': rutube_link,
+        'telegram_link': telegram_link,
+
     })
 
 
@@ -203,6 +212,35 @@ def administration_client(request):
     return render(request, 'main/administration_client.html', {
         'title': 'Клиенты',
         'clients': clients,
+    })
+
+
+def administration_links(request):
+    links = Links.objects.all()
+
+    if request.method == 'POST':
+        for link in links:
+            new_link = request.POST.get(f"link_{link.id}")
+            print(new_link)
+            link.link = new_link
+            link.save()
+            return redirect('administration_links')
+
+    return render(request, 'main/administration_links.html', {
+        'title': 'Ссылки',
+        'links': links,
+    })
+
+
+def administration_promotions(request):
+    return render(request, 'main/administration_promotions.html', {
+        'title': 'Акции',
+    })
+
+
+def administration_comments(request):
+    return render(request, 'main/administration_comments.html', {
+        'title': 'Комментарии',
     })
 
 

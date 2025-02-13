@@ -14,27 +14,35 @@
     <a href="{% url 'administration_client' %}">Клиенты</a>
     <a href="{% url 'administration_order' %}">Заказы</a>
     <a href="{% url 'administration_anketa' %}">Анкета</a>
-    <a class="active" href="{% url 'administration_links' %}">Ссылки</a>
+    <a href="{% url 'administration_links' %}">Ссылки</a>
     <a href="{% url 'administration_promotions' %}">Акции</a>
-    <a href="{% url 'administration_comments' %}">Отзывы</a>
+    <a class="active" href="{% url 'administration_comments' %}">Отзывы</a>
 </div>
 
 
 
 <div class="content">
+    <div style="margin-bottom: 30px;">
+        <button id="add_form">Добавить</button>
+    </div>
+    <div id="view_form" style="margin-bottom: 30px; display: none;">
+        <form action="" method="post">{% csrf_token %}
+            <textarea name="new_question" style="width: 600px; height: 200px;resize: none;"></textarea>
+
+            <button type="submit">Сохранить</button>
+        </form>
+        <button id="close_form">Отмена</button>
+    </div>
     <div>
-        <form method="post">{% csrf_token %}
         <table id="contant_table">
-        {% for link in links %}
+        {% for question in questions %}
                 <tr>
-                    <td><p>{{link.name}}</p></td>
-                    <td><input style="min-width: 700px;" type="text" name="link_{{link.id}}" id="" value="{{link.link}}"></td>
+                    <td style="max-width: 700px;"><p>{{question.question}}</p></td>
+                    <td><a href="{% url 'edit_question' question.id %}">Редактировать</a></td>
                 </tr>
 
         {% endfor %}
         </table>
-        <button type="submit" style="margin-top: 30px;">Сохранить</button>
-    </form>
     </div>
 
 
