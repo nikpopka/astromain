@@ -28,6 +28,7 @@
     <div id="modal" class="modal">
         <div class="modal-content">
             <div style="margin: 20px;">
+                <div>получение данных для входа будет возможно после предоставления Вам услуг</div>
                 <form method="post">{% csrf_token %}
                     {{ form_auth.as_p }}
                     <button type="submit">Войти</button>
