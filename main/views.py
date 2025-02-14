@@ -74,19 +74,47 @@ def services(request):
 
 
 def sent_message(request):
-    message_text = 'test2'
+    form_auth = AuthenticationForm()
+    all_service = Services.objects.all()
+    if request.method == "POST":
+        form_auth = AuthenticationForm(request, data=request.POST)
+        if form_auth.is_valid():
+            username = form_auth.cleaned_data.get("username")
+            password = form_auth.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('personal_account')
+            else:
+                return redirect('sent_message')
 
-    load_dotenv()
-    bot_token = os.getenv("BOT_TOKEN")
-    chat_id = os.getenv("CHAT_ID")
-    send_message_url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
-    payload = {
-        'chat_id': chat_id,
-        'text': message_text
-    }
-    requests.post(send_message_url, data=payload)
+        service = request.POST.get('service')
+        client_name = request.POST.get('client_name')
+        message = request.POST.get('message')
+        number = request.POST.get('number')
+        messager = request.POST.get('messager')
 
-    return redirect('main')
+        message_text = f"""
+        Клиент {client_name} хочет проконсультироваться
+        по услуге {service} по {messager}.
+        Сообщение: {message}
+        Телефон: {number} .
+        """
+        load_dotenv()
+        bot_token = os.getenv("BOT_TOKEN")
+        chat_id = os.getenv("CHAT_ID")
+        send_message_url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+        payload = {
+            'chat_id': chat_id,
+            'text': message_text
+        }
+        requests.post(send_message_url, data=payload)
+        return redirect('services')
+
+    return render(request, 'main/sent_message.html', {
+        'all_service': all_service,
+        'form_auth': form_auth
+    })
 
 
 def personal_account(request):

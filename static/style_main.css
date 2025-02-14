@@ -176,3 +176,13 @@ label {
   float: left;
 
 }
+
+.Select {
+  height: 30px;
+  border: 1px solid #999;
+  font-size: 16px;
+  background-color: #eee;
+  border-radius: 5px;
+  box-shadow: 4px 4px #ccc;
+  margin-bottom: 20px;
+}
