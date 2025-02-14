@@ -20,6 +20,7 @@ urlpatterns = [
     path('edit_question/<int:id>', views.edit_question, name="edit_question"),
     path('delete_question/<int:id>', views.delete_question, name="delete_question"),
     path('comments', views.comments, name="comments"),
+    path('sent_message', views.sent_message, name="sent_message"),
 
 
 ]

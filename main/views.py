@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -5,6 +6,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import permission_required, login_required
 from .models import Services, Clients, Questions, Video, Files, Answers, Comments, Links
 from django.template.defaultfilters import register
+from dotenv import load_dotenv
+import os
+
 
 main_user = "popov"
 
@@ -48,6 +52,20 @@ def index(request):
 
     })
 
+def sent_message(request):
+    message_text = 'test2'
+
+    load_dotenv()
+    bot_token = os.getenv("BOT_TOKEN")
+    chat_id = os.getenv("CHAT_ID")
+    send_message_url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+    payload = {
+        'chat_id': chat_id,
+        'text': message_text
+    }
+    requests.post(send_message_url, data=payload)
+
+    return redirect('main')
 
 def personal_account(request):
     if request.user.is_authenticated:
@@ -233,6 +251,7 @@ def administration_links(request):
 
 
 def administration_promotions(request):
+
     return render(request, 'main/administration_promotions.html', {
         'title': 'Акции',
     })
