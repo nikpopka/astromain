@@ -10,9 +10,9 @@
 
 {% block content %}
 <div id="navbar">
+    <a href="{% url 'administration_about' %}">Главная страница</a>
     <a href="{% url 'administration_service' %}">Услуги</a>
     <a href="{% url 'administration_client' %}">Клиенты</a>
-    <a href="{% url 'administration_order' %}">Заказы</a>
     <a href="{% url 'administration_anketa' %}">Анкета</a>
     <a href="{% url 'administration_links' %}">Ссылки</a>
     <a href="{% url 'administration_promotions' %}">Акции</a>
@@ -22,52 +22,21 @@
 
 
 <div class="content">
-    <div style="margin-bottom: 30px;">
-        <button id="add_form">Добавить</button>
-    </div>
-    <div id="view_form" style="margin-bottom: 30px; display: none;">
-        <form action="" method="post">{% csrf_token %}
-            <textarea name="new_question" style="width: 600px; height: 200px;resize: none;"></textarea>
+    <table style="font-size: 15px;" id="contant_table">
+    {% for comment in all_comments %}
+            <tr>
+                <td>{{comment.client.fio}}</td>
+                <td style="max-width: 700px;"><p>{{comment.comment}}</p></td>
+                <td><a href="{% url 'delete_comment' comment.id %}">Удалить</a></td>
+            </tr>
 
-            <button type="submit">Сохранить</button>
-        </form>
-        <button id="close_form">Отмена</button>
-    </div>
-    <div>
-        <table id="contant_table">
-        {% for question in questions %}
-                <tr>
-                    <td style="max-width: 700px;"><p>{{question.question}}</p></td>
-                    <td><a href="{% url 'edit_question' question.id %}">Редактировать</a></td>
-                </tr>
-
-        {% endfor %}
-        </table>
-    </div>
+    {% endfor %}
+    </table>
 
 
 
-    </div>
+</div>
 
-    <script>
-        const add_form = document.getElementById("add_form")
-        const view_form = document.getElementById("view_form")
-        const close_form = document.getElementById("close_form")
-
-
-        add_form.addEventListener('click', function() {
-            view_form.style.display = '';
-            add_form.style.display = 'none';
-            })
-
-            close_form.addEventListener('click', function() {
-            add_form.style.display = '';
-            view_form.style.display = 'none';
-            })
-
-
-
-        </script>
 
 {% endblock %}
 

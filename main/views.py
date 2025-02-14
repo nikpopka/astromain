@@ -52,6 +52,27 @@ def index(request):
 
     })
 
+
+def services(request):
+    all_services = Services.objects.all()
+    form_auth = AuthenticationForm()
+    if request.method == "POST":
+        form_auth = AuthenticationForm(request, data=request.POST)
+        if form_auth.is_valid():
+            username = form_auth.cleaned_data.get("username")
+            password = form_auth.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('personal_account')
+            else:
+                return redirect('services')
+    return render(request, 'main/services.html', {
+        'all_services': all_services,
+        'form_auth': form_auth
+    })
+
+
 def sent_message(request):
     message_text = 'test2'
 
@@ -67,6 +88,7 @@ def sent_message(request):
 
     return redirect('main')
 
+
 def personal_account(request):
     if request.user.is_authenticated:
         username = request.user.username
@@ -81,6 +103,37 @@ def personal_account(request):
         })
     return render(request, 'main/lk.html', {
         'title': 'Личный кабинет',
+    })
+
+
+def comments(request):
+    comments = Comments.objects.all().order_by('-id')
+    if request.user.is_authenticated:
+        client = Clients.objects.get(login=request.user.username)
+    form_auth = AuthenticationForm()
+    if request.method == "POST":
+        form_auth = AuthenticationForm(request, data=request.POST)
+        if form_auth.is_valid():
+            username = form_auth.cleaned_data.get("username")
+            password = form_auth.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('personal_account')
+            else:
+                return redirect('comments')
+        if request.user.is_authenticated:
+            new_comment = request.POST.get('new_comment')
+            if new_comment != "Ваш текст...":
+                new_comment_obj = Comments(comment=new_comment, client=client)
+                new_comment_obj.save()
+                return redirect('comments')
+            else: return redirect('comments')
+
+    return render(request, 'main/comments.html', {
+        'title': 'Комментарии',
+        'comments': comments,
+        'form_auth': form_auth,
     })
 
 
@@ -319,39 +372,20 @@ def delete_file(request, id):
     })
 
 
-def administration_order(request):
-    return render(request, 'main/administration_order.html', {
+def administration_about(request):
+    return render(request, 'main/administration_about.html', {
         'title': 'Заказы'
     })
 
 
-def comments(request):
-    comments = Comments.objects.all().order_by('-id')
-    if request.user.is_authenticated:
-        client = Clients.objects.get(login=request.user.username)
-    form_auth = AuthenticationForm()
-    if request.method == "POST":
-        form_auth = AuthenticationForm(request, data=request.POST)
-        if form_auth.is_valid():
-            username = form_auth.cleaned_data.get("username")
-            password = form_auth.cleaned_data.get("password")
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('personal_account')
-            else:
-                return redirect('comments')
-        if request.user.is_authenticated:
-            new_comment = request.POST.get('new_comment')
-            if new_comment != "Ваш текст...":
-                new_comment_obj = Comments(comment=new_comment, client=client)
-                new_comment_obj.save()
-                return redirect('comments')
-            else: return redirect('comments')
-
-    return render(request, 'main/comments.html', {
+def administration_comments(request):
+    all_comments = Comments.objects.all().order_by('-id')
+    return render(request, 'main/administration_comments.html', {
         'title': 'Комментарии',
-        'comments': comments,
-        'form_auth': form_auth,
+        'all_comments': all_comments,
     })
 
+def delete_comment(request, id):
+    item = Comments.objects.get(id=id)
+    item.delete()
+    return redirect('/administration_comments')

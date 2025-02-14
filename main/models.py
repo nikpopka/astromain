@@ -17,6 +17,12 @@ class Orders(models.Model):
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     service = models.ForeignKey(Services, on_delete=models.CASCADE)
 
+class About(models.Model):
+    paragraph = models.CharField("Полное описание", max_length=3000, default='')
+
+class News(models.Model):
+    news = models.CharField("Новость", max_length=3000, default='')
+
 
 class Video(models.Model):
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
