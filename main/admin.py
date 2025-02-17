@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Services, Clients, Orders, Video, Files, Questions, Answers, Comments, Links, Promotions
+from .models import About, News, Services, Clients, Orders, Video, Files, Questions, Answers, Comments, Links, Promotions
 
 admin.site.register(Services)
 admin.site.register(Clients)
@@ -11,3 +11,6 @@ admin.site.register(Answers)
 admin.site.register(Comments)
 admin.site.register(Links)
 admin.site.register(Promotions)
+admin.site.register(About)
+admin.site.register(News)
+

@@ -26,19 +26,29 @@
         <button id="add_form">Добавить</button>
     </div>
     <div id="view_form" style="margin-bottom: 30px; display: none;">
-        <form action="" method="post">{% csrf_token %}
-            <textarea name="new_question" style="width: 600px; height: 200px;resize: none;"></textarea>
-
-            <button type="submit">Сохранить</button>
+        <form method="post">{% csrf_token %}
+            <div>
+                <input required type="text" name="new_promo_name">
+                <input required style="width: 700px;" type="text" name="new_promo_disc">
+                <button type="submit">Сохранить</button>
+            </div>
         </form>
         <button id="close_form">Отмена</button>
     </div>
     <div>
         <table id="contant_table">
-        {% for question in questions %}
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Статус</th>
+            </tr>
+        {% for promotion in all_promotions %}
                 <tr>
-                    <td style="max-width: 700px;"><p>{{question.question}}</p></td>
-                    <td><a href="{% url 'edit_question' question.id %}">Редактировать</a></td>
+                    <td>{{promotion.name}}</td>
+                    <td>{{promotion.description}}</td>
+                    <td>
+                        <a href="{% url 'delete_promotion' promotion.id %}">Удалить</a>
+                    </td>
                 </tr>
 
         {% endfor %}

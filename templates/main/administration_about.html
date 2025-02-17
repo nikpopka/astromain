@@ -22,6 +22,27 @@
 
 
 <div class="content">
+    <form method="post">{% csrf_token %}
+        <div style="display: flex;">
+            <div style="flex: 1;">Обо мне
+                <a href="{% url 'add_about' %}">Добавить абзац в "обо мне"</a>
+                {% for item in about %}
+                <div>
+                    <textarea name="about_{{item.id}}" style="width: 600px; height: 200px;resize: none;">{{ item.paragraph }}</textarea>
+                </div>
 
-    </div>
+                {% endfor %}
+            </div>
+            <div style="flex: 1;">Астрологические советы
+                <a href="{% url 'add_news' %}">Добавить абзац в "Астрологические советы"</a>
+                {% for new in news %}
+                    <div>
+                        <textarea name="new_{{new.id}}" style="width: 600px; height: 200px;resize: none;">{{ new.news }}</textarea>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
 {% endblock %}

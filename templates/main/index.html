@@ -18,7 +18,29 @@
     <a id="openModal" style="float: right;">Вход</a>
     {% endif %}
 </div>
-<div class="content">
+<div style="margin-top: 30px;" class="content">
+    <div style="display: flex;">
+        <div class="ticket">
+            <h3>Обо мне</h3>
+            <div>
+                {% for item in about %}
+                <div>
+                    <p style="margin-top: 10px;">{{ item.paragraph }}</p>
+                </div>
 
- </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="ticket">
+            <h3>Астрологические советы</h3>
+            <div>
+                {% for new in news %}
+                    <div>
+                        <p>{{ new.news }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

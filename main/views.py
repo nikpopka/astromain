@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import permission_required, login_required
-from .models import Services, Clients, Questions, Video, Files, Answers, Comments, Links
+from .models import Services, Clients, Questions, Video, Files, Answers, Comments, Links, Promotions, About, News
 from django.template.defaultfilters import register
 from dotenv import load_dotenv
 import os
@@ -27,6 +27,8 @@ def index(request):
     youtube_link = Links.objects.get(name="youtube").link
     rutube_link = Links.objects.get(name="rutube").link
     telegram_link = Links.objects.get(name="telegram").link
+    about = About.objects.all()
+    news = News.objects.all()
     form_auth = AuthenticationForm()
     if request.method == "POST":
         form_auth = AuthenticationForm(request, data=request.POST)
@@ -49,6 +51,8 @@ def index(request):
         'youtube_link': youtube_link,
         'rutube_link': rutube_link,
         'telegram_link': telegram_link,
+        'about': about,
+        'news': news,
 
     })
 
@@ -56,6 +60,7 @@ def index(request):
 def services(request):
     all_services = Services.objects.all()
     form_auth = AuthenticationForm()
+    promotions = Promotions.objects.all()
     if request.method == "POST":
         form_auth = AuthenticationForm(request, data=request.POST)
         if form_auth.is_valid():
@@ -69,7 +74,8 @@ def services(request):
                 return redirect('services')
     return render(request, 'main/services.html', {
         'all_services': all_services,
-        'form_auth': form_auth
+        'form_auth': form_auth,
+        'promotions': promotions,
     })
 
 
@@ -332,10 +338,25 @@ def administration_links(request):
 
 
 def administration_promotions(request):
+    all_promotions = Promotions.objects.all()
+
+    if request.method == 'POST':
+        new_name = request.POST.get('new_promo_name')
+        new_description = request.POST.get('new_promo_disc')
+        new_promotion = Promotions(name=new_name, description=new_description)
+        new_promotion.save()
+        return redirect('administration_promotions')
 
     return render(request, 'main/administration_promotions.html', {
         'title': 'Акции',
+        'all_promotions': all_promotions,
     })
+
+
+def delete_promotion(request, id):
+    promotion = Promotions.objects.get(id=id)
+    promotion.delete()
+    return redirect('administration_promotions')
 
 
 def administration_comments(request):
@@ -401,9 +422,38 @@ def delete_file(request, id):
 
 
 def administration_about(request):
+    about = About.objects.all()
+    news = News.objects.all()
+    if request.method == 'POST':
+        for i in about:
+            about_text = request.POST.get(f'about_{i.id}')
+            i.paragraph = about_text
+            i.save()
+
+        for i in news:
+            news_text = request.POST.get(f'new_{i.id}')
+            i.news = news_text
+            i.save()
+
+
+        return redirect('administration_about')
     return render(request, 'main/administration_about.html', {
-        'title': 'Заказы'
+        'title': 'Главная страница',
+        'about': about,
+        'news': news,
     })
+
+
+def add_about(request):
+    new_about = About()
+    new_about.save()
+    return redirect('administration_about')
+
+
+def add_news(request):
+    new_news = News()
+    new_news.save()
+    return redirect('administration_about')
 
 
 def administration_comments(request):

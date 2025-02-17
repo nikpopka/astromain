@@ -21,9 +21,26 @@
 <div class="content">
     <a href="{% url 'sent_message' %}" style="float: right;">Запрос на обратную связь</a>
     <h3>Что я могу Вам предложить</h3>
+    {% if promotions %}
+    <div class="post-wrap">
+        {% for promo in promotions %}
+            <div class="post-item">
+                <div class="post-item-wrap">
+                    <a class="post-link">
+                        <h3 class="post-title">Акции!!! {{promo.name}}</h3>
+                        <p class="post-content">{{promo.description}}</p>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+
 
     <div>
-        <table id="contant_table">
+        <table style="margin-top: 30px;" id="contant_table">
             <th>Название</th>
             <th>Описание</th>
             <th></th>
