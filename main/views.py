@@ -181,6 +181,7 @@ def comments(request):
     youtube_link = Links.objects.get(name="youtube").link
     rutube_link = Links.objects.get(name="rutube").link
     telegram_link = Links.objects.get(name="telegram").link
+    social_comm = Links.objects.get(name="social_comm").link
     comments = Comments.objects.all().order_by('-id')
     if request.user.is_authenticated:
         client = Clients.objects.get(login=request.user.username)
@@ -212,6 +213,7 @@ def comments(request):
         'youtube_link': youtube_link,
         'rutube_link': rutube_link,
         'telegram_link': telegram_link,
+        'social_comm': social_comm,
     })
 
 @login_required

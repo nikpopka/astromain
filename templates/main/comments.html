@@ -33,8 +33,15 @@
         Дорогие друзья, возможность оставить отзыв появится после получения услуг.
     </p>
 </div>
+
 {% endif %}
+<div style="display: flex;justify-content: end; margin-top: 15px;">
+    <p>
+        Подготовила для Вас <a href="{{social_comm}}">отзывы</a>, которые накопились в других социальных сетях, можете ознакомиться.
+    </p>
+</div>
 <div class="content">
+
     <div class="reviews">
         {% for comment in comments %}
 
