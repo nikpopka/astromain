@@ -21,8 +21,12 @@
 <div class="content">
     <h3>Привет, {{client.fio}}</h3>
     <div >
-        <a style="float: right;" href="{% url 'anketa' %}">Анкета</a>
+        <a style="float: right;" href="{% url 'logout' %}">Выход</a>
     </div>
+    <div >
+        <a style="float: right;position: relative;right: 50px;" href="{% url 'anketa' %}">Анкета</a>
+    </div>
+
     <div>
         {% if not files and not video_list %}
             <p>В данном разделе, после предоставления Вам услуги, появится информация</p>
